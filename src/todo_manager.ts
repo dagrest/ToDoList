@@ -31,7 +31,7 @@ export const getToDoList: RequestHandler = async function (req, res, next) {
 
 /**
 * Add a new item to ToDo list and store the list
-* http://localhost:3000/additem/TodoList/ABC
+* http://localhost:3000/additem/TodoList/FirstToDoItem
 */
 export const addToDoItem: RequestHandler = async function (req, res, next) {
   
@@ -62,7 +62,7 @@ export const addToDoItem: RequestHandler = async function (req, res, next) {
 
 /**
 * Update ToDo item status to opposite and store the list
-* http://localhost:3000/list/TodoList
+* http://localhost:3000/updateitemstatus/TodoList/1cf0b7f3-5a82-4dfa-820f-603162561bab
 */
 export const updateToDoItemStatus: RequestHandler = async function (req, res, next) {
   
@@ -97,7 +97,7 @@ export const updateToDoItemStatus: RequestHandler = async function (req, res, ne
 
 /**
 * Delete ToDo item and store the list
-* http://localhost:3000/list/TodoList
+* http://localhost:3000/deleteitem/TodoList/1cf0b7f3-5a82-4dfa-820f-603162561bab
 */
 export const deleteToDoItem: RequestHandler = async function (req, res, next) {
   

@@ -3,7 +3,7 @@ import got from 'got';
 import { Server } from 'http';
 import { createApp } from '../src/app';
 
-describe('/package/:name/:version endpoint', () => {
+describe('/additem/:listName/:itemName', () => {
   let server: Server;
   let port: number;
 
@@ -17,80 +17,25 @@ describe('/package/:name/:version endpoint', () => {
   });
 
   it('responds', async () => {
-    const packageName = 'react';
-    const packageVersion = '16.13.0';
+    const listNameParam = 'ToDoList';
+    const itemNameParam = 'First ToDo Item';
+    console.log('DEBUG!!!')
 
-    const res: any = await got(
-      `http://localhost:${port}/packageOrig/${packageName}/${packageVersion}`,
+    // http://localhost:3000/list/TodoList
+
+    const res: any = await got.post(
+      `http://localhost:3000/additem/ToDoList/First ToDo Item`,
     ).json();
 
-    expect(res.name).toEqual(packageName);
+    // const res: any = await got(
+    //   `http://localhost:${port}/additem/${listNameParam}/${itemNameParam}`,
+    // ).json();
+
+
+
+    console.log('Result:'  + res);
+
+    expect(res).toEqual('{"TodoList":[{"itemId":"be22423b-6bc3-4dd5-8773-2670602cff0b","itemName":"First ToDo Item","itemStatus":"active"}]}');
   });
 
-  it('returns dependencies', async () => {
-    const packageName = 'react';
-    const packageVersion = '16.13.0';
-
-    const res: any = await got(
-      `http://localhost:${port}/packageOrig/${packageName}/${packageVersion}`,
-    ).json();
-
-    expect(res.dependencies).toEqual({
-      'loose-envify': '^1.1.0',
-      'object-assign': '^4.1.1',
-      'prop-types': '^15.6.2',
-    });
-  });
-
-  it('returns dependencies', async () => {
-    const packageName = 'react';
-    const packageVersion = '16.13.0';
-
-    const res: any = await got(
-      `http://localhost:${port}/package/${packageName}/${packageVersion}`,
-    ).json();
-
-    expect(res).toEqual({
-      'name': 'react',
-      'version': '16.13.0',
-      'dependencies': [
-        {
-          'name': 'loose-envify',
-          'version': '1.1.0',
-          'dependencies': [
-            {
-              'name': 'js-tokens',
-              'version': '1.0.1'
-            }
-          ]
-        },
-        {
-          'name': 'object-assign',
-          'version': '4.1.1'
-        },
-        {
-          'name': 'prop-types',
-          'version': '15.6.2',
-          'dependencies': [
-            {
-              'name': 'loose-envify',
-              'version': '1.3.1',
-              'dependencies': [
-                {
-                  'name': 'js-tokens',
-                  'version': '3.0.0'
-                }
-              ]
-            },
-            {
-              'name': 'object-assign',
-              'version': '4.1.1'
-            }
-          ]
-        }
-      ]
-    });
-
-  });
-  
 });
