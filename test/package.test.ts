@@ -3,6 +3,9 @@ import got from 'got';
 import { Server } from 'http';
 import { createApp } from '../src/app';
 
+
+const fs = require('fs')
+
 describe('/additem/:listName/:itemName', () => {
   let server: Server;
   let port: number;
@@ -19,23 +22,25 @@ describe('/additem/:listName/:itemName', () => {
   it('responds', async () => {
     const listNameParam = 'ToDoList';
     const itemNameParam = 'First ToDo Item';
-    console.log('DEBUG!!!')
 
-    // http://localhost:3000/list/TodoList
+    try {
+      fs.unlinkSync('./' + listNameParam + '.json')
+      //file removed
+    } catch(err) {
+      //nothing to do - file not exists/removed
+    }
 
-    const res: any = await got.post(
-      `http://localhost:3000/additem/ToDoList/First ToDo Item`,
-    ).json();
+    const res: any = await got('http://localhost:3000/additem/' + listNameParam + '/' + itemNameParam, 
+      { method: 'post' });
 
-    // const res: any = await got(
-    //   `http://localhost:${port}/additem/${listNameParam}/${itemNameParam}`,
-    // ).json();
+    var expectedRes = '{"TodoList":[{"itemId":"","itemName":"First ToDo Item","itemStatus":"active"}]}';
 
+    var result = res.body.substring(0, 24) + res.body.substring(60, res.body.length);
 
 
     console.log('Result:'  + res);
 
-    expect(res).toEqual('{"TodoList":[{"itemId":"be22423b-6bc3-4dd5-8773-2670602cff0b","itemName":"First ToDo Item","itemStatus":"active"}]}');
+    expect(result).toEqual(expectedRes);
   });
 
 });
