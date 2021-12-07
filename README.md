@@ -43,3 +43,11 @@ where
 ```
 http://localhost:3000/deleteitem/TodoList/1cf0b7f3-5a82-4dfa-820f-603162561bab
 ```
+
+To run the tests:
+```
+npm run test
+
+Or in watch mode
+npm run test -- --watch
+```
